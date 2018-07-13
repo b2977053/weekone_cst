@@ -88,7 +88,29 @@ namespace weekone_cst.Controllers
             {
                 return HttpNotFound();
             }
+
+            ViewBag.客戶分類 = getSelect(客戶資料.客戶分類);
+
             return View(客戶資料);
+        }
+
+        private dynamic getSelect(string select = "")
+        {
+            List<SelectListItem> items = new List<SelectListItem>();
+            items.Add(new SelectListItem() { Value = "", Text = "請選擇" });
+            items.Add(new SelectListItem() { Value = "分類1", Text = "分類1" });
+            items.Add(new SelectListItem() { Value = "分類2", Text = "分類2" });
+            items.Add(new SelectListItem() { Value = "分類3", Text = "分類3" });
+
+            if (string.IsNullOrWhiteSpace(select))
+            {
+                items[0].Selected = true;
+            }
+            else
+            {
+                items.Where(r => r.Value == select).First().Selected = true;
+            }
+            return items;
         }
 
         // POST: customer/Edit/5

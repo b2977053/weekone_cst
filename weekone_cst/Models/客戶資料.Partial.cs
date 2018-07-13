@@ -3,7 +3,8 @@ namespace weekone_cst.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    
+    using weekone_cst.Models.InputValidations;
+
     [MetadataType(typeof(客戶資料MetaData))]
     public partial class 客戶資料
     {
@@ -24,6 +25,7 @@ namespace weekone_cst.Models
         
         [StringLength(50, ErrorMessage="欄位長度不得大於 50 個字元")]
         [Required]
+        [手機]
         public string 電話 { get; set; }
         
         [StringLength(50, ErrorMessage="欄位長度不得大於 50 個字元")]
@@ -33,6 +35,7 @@ namespace weekone_cst.Models
         public string 地址 { get; set; }
         
         [StringLength(250, ErrorMessage="欄位長度不得大於 250 個字元")]
+        [EmailAddress]
         public string Email { get; set; }
     
         public virtual ICollection<客戶銀行資訊> 客戶銀行資訊 { get; set; }

@@ -181,6 +181,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>EFGeneratePartialClass.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\InputValidations\手機Attribute.cs" />
     <Compile Include="Models\客戶聯絡人.cs">
       <DependentUpon>customer.tt</DependentUpon>
     </Compile>
@@ -269,6 +270,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\手機Attribute\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

@@ -24,17 +24,17 @@ namespace weekone_cst.Controllers
         //private 客戶資料Entities db = new 客戶資料Entities();
 
         // GET: customer
-        public ActionResult Index(string qtype, string qname)
+        public ActionResult Index(string orderby, string qtype, string qname)
         {
-            ViewBag.qtype = new SelectList(repo.All(), "客戶分類", "客戶分類", qtype);
+            ViewBag.qtype = new SelectList(repo.SelectList(orderby), "客戶分類", "客戶分類", qtype);
 
             if (string.IsNullOrWhiteSpace(qtype) && string.IsNullOrWhiteSpace(qname))
             {
-                return View("Index", repo.All().ToList());
+                return View("Index", repo.All(orderby).ToList());
             }
             else
             {
-                return View("Index", repo.搜尋名稱(qtype, qname));
+                return View("Index", repo.搜尋名稱(orderby, qtype, qname));
             }
         }
 

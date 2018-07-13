@@ -4,9 +4,23 @@
     ViewBag.Title = "Index";
 }
 
+<script>
+    function setOrderBy(arg) {
+        var e = $("#orderby");
+        if (!e.val().match(arg)) {
+            e.val(arg);
+        } else if (e.val().match('desc')) {
+            e.val(e.val().replace('desc', ''));
+        } else {
+            e.val(arg + 'desc');
+        }
+        FormList.submit();
+    }
+</script>
 <h2>Index</h2>
 @using (Html.BeginForm("Index", "customerContact", FormMethod.Post, new { @name = "FormList", @id = "FormList" }))
 {
+    @Html.Hidden("orderby", "Id")
     @Html.DropDownList("qtype", null, htmlAttributes: new { @class = "form-control" })
     @Html.TextBox("qname", null, new { placeholder = "姓名" })
     <input type="submit" value="查詢" class="btn btn-default" />
@@ -16,22 +30,22 @@
 </p>
 <table class="table">
     <tr>
-        <th>
+        <th onclick="setOrderBy('職稱')">
             @Html.DisplayNameFor(model => model.職稱)
         </th>
-        <th>
+        <th onclick="setOrderBy('姓名')">
             @Html.DisplayNameFor(model => model.姓名)
         </th>
-        <th>
+        <th onclick="setOrderBy('Email')">
             @Html.DisplayNameFor(model => model.Email)
         </th>
-        <th>
+        <th onclick="setOrderBy('手機')">
             @Html.DisplayNameFor(model => model.手機)
         </th>
-        <th>
+        <th onclick="setOrderBy('電話')">
             @Html.DisplayNameFor(model => model.電話)
         </th>
-        <th>
+        <th onclick="setOrderBy('客戶Id')">
             @Html.DisplayNameFor(model => model.客戶資料.客戶名稱)
         </th>
         <th></th>

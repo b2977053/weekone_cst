@@ -6,13 +6,12 @@ namespace weekone_cst.Models
 {   
 	public  class 客戶銀行資訊Repository : EFRepository<客戶銀行資訊>, I客戶銀行資訊Repository
 	{
-        public IQueryable<客戶銀行資訊> All(bool isAll = false)
+        public IQueryable<客戶銀行資訊> All()
         {
-            if (isAll)
-            {
-                return base.All();
-            }
-            return base.All();
+
+            var 客戶銀行資訊 = base.All();
+            客戶銀行資訊 = 客戶銀行資訊.Where(r => r.isHidden != true);
+            return 客戶銀行資訊;
         }
 
         public IQueryable<客戶銀行資訊> 搜尋名稱(string qname)

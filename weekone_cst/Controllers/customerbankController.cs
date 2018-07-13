@@ -134,8 +134,14 @@ namespace weekone_cst.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             客戶銀行資訊 客戶銀行資訊 = repo.Find(id);
-            repo.Delete(客戶銀行資訊);
-            repo.UnitOfWork.Commit();
+            //repo.Delete(客戶銀行資訊);
+            //repo.UnitOfWork.Commit();
+
+            客戶銀行資訊.isHidden = true;
+            var db = repo.UnitOfWork.Context;
+            db.Entry(客戶銀行資訊).State = EntityState.Modified;
+            db.SaveChanges();
+
             return RedirectToAction("Index");
         }
 

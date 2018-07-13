@@ -21,6 +21,7 @@ namespace weekone_cst.Models
         public string Email { get; set; }
         public string 手機 { get; set; }
         public string 電話 { get; set; }
+        public Nullable<bool> isHidden { get; set; }
     
         public virtual 客戶資料 客戶資料 { get; set; }
     }

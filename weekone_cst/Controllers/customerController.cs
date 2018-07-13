@@ -150,9 +150,16 @@ namespace weekone_cst.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+
             客戶資料 客戶資料 = repo.Find(id);
-            repo.Delete(客戶資料);
-            repo.UnitOfWork.Commit();
+            //repo.Delete(客戶資料);
+            //repo.UnitOfWork.Commit();
+
+            客戶資料.isHidden = true;
+            var db = repo.UnitOfWork.Context;
+            db.Entry(客戶資料).State = EntityState.Modified;
+            db.SaveChanges();
+
             return RedirectToAction("Index");
         }
 

@@ -9,42 +9,44 @@ namespace weekone_cst.Models
 	{
         public IQueryable<客戶資料> All(string orderby = "ID")
         {
+            var 客戶資料 = base.All();
+            客戶資料 = 客戶資料.Where(r => r.isHidden != true);
             switch (orderby)
             {
                 case "ID":
-                    return base.All().OrderBy(r => r.Id);
+                    return 客戶資料.OrderBy(r => r.Id);
                 case "IDdesc":
-                    return base.All().OrderByDescending(r => r.Id);
+                    return 客戶資料.OrderByDescending(r => r.Id);
                 case "客戶分類":
-                    return base.All().OrderBy(r => r.客戶分類);
+                    return 客戶資料.OrderBy(r => r.客戶分類);
                 case "客戶分類desc":
-                    return base.All().OrderByDescending(r => r.客戶分類);
+                    return 客戶資料.OrderByDescending(r => r.客戶分類);
                 case "客戶名稱":
-                    return base.All().OrderBy(r => r.客戶名稱);
+                    return 客戶資料.OrderBy(r => r.客戶名稱);
                 case "客戶名稱desc":
-                    return base.All().OrderByDescending(r => r.客戶名稱);
+                    return 客戶資料.OrderByDescending(r => r.客戶名稱);
                 case "統一編號":
-                    return base.All().OrderBy(r => r.統一編號);
+                    return 客戶資料.OrderBy(r => r.統一編號);
                 case "統一編號desc":
-                    return base.All().OrderByDescending(r => r.統一編號);
+                    return 客戶資料.OrderByDescending(r => r.統一編號);
                 case "電話":
-                    return base.All().OrderBy(r => r.電話);
+                    return 客戶資料.OrderBy(r => r.電話);
                 case "電話desc":
-                    return base.All().OrderByDescending(r => r.電話);
+                    return 客戶資料.OrderByDescending(r => r.電話);
                 case "傳真":
-                    return base.All().OrderBy(r => r.傳真);
+                    return 客戶資料.OrderBy(r => r.傳真);
                 case "傳真desc":
-                    return base.All().OrderByDescending(r => r.傳真);
+                    return 客戶資料.OrderByDescending(r => r.傳真);
                 case "地址":
-                    return base.All().OrderBy(r => r.地址);
+                    return 客戶資料.OrderBy(r => r.地址);
                 case "地址desc":
-                    return base.All().OrderByDescending(r => r.地址);
+                    return 客戶資料.OrderByDescending(r => r.地址);
                 case "Email":
-                    return base.All().OrderBy(r => r.Email);
+                    return 客戶資料.OrderBy(r => r.Email);
                 case "Emaildesc":
-                    return base.All().OrderByDescending(r => r.Email);
+                    return 客戶資料.OrderByDescending(r => r.Email);
                 default:
-                    return base.All();
+                    return 客戶資料;
             }
         }
 

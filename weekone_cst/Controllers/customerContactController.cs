@@ -27,15 +27,17 @@ namespace weekone_cst.Controllers
         //private 客戶資料Entities db = new 客戶資料Entities();
 
         // GET: customerContact
-        public ActionResult Index(string qname)
+        public ActionResult Index(string qtype, string qname)
         {
-            if (string.IsNullOrWhiteSpace(qname))
+            ViewBag.qtype = new SelectList(repo.All(), "職稱", "職稱", qtype);
+
+            if (string.IsNullOrWhiteSpace(qtype) && string.IsNullOrWhiteSpace(qname))
             {
                 return View("Index", repo.All().ToList());
             }
             else
             {
-                return View("Index", repo.搜尋名稱(qname));
+                return View("Index", repo.搜尋名稱(qtype, qname));
             }
         }
 

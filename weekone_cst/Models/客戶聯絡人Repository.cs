@@ -16,13 +16,17 @@ namespace weekone_cst.Models
             return base.All();
         }
 
-        public IQueryable<客戶聯絡人> 搜尋名稱(string qname)
+        public IQueryable<客戶聯絡人> 搜尋名稱(string qtype, string qname)
         {
             var 客戶聯絡人 = this.All();
 
             if (!String.IsNullOrEmpty(qname))
             {
                 客戶聯絡人 = 客戶聯絡人.Where(p => p.姓名.Contains(qname));
+            }
+            if (!String.IsNullOrEmpty(qtype))
+            {
+                客戶聯絡人 = 客戶聯絡人.Where(p => p.職稱.Contains(qtype));
             }
 
             return 客戶聯絡人;

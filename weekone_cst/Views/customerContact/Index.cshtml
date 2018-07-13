@@ -7,6 +7,7 @@
 <h2>Index</h2>
 @using (Html.BeginForm("Index", "customerContact", FormMethod.Post, new { @name = "FormList", @id = "FormList" }))
 {
+    @Html.DropDownList("qtype", null, htmlAttributes: new { @class = "form-control" })
     @Html.TextBox("qname", null, new { placeholder = "姓名" })
     <input type="submit" value="查詢" class="btn btn-default" />
 }

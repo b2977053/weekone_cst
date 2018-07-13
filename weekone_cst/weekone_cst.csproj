@@ -157,6 +157,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\customerbankController.cs" />
+    <Compile Include="Controllers\customerContactController.cs" />
     <Compile Include="Controllers\customerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -273,6 +274,11 @@
     <Content Include="Views\customerbank\Details.cshtml" />
     <Content Include="Views\customerbank\Edit.cshtml" />
     <Content Include="Views\customerbank\Index.cshtml" />
+    <Content Include="Views\customerContact\Create.cshtml" />
+    <Content Include="Views\customerContact\Delete.cshtml" />
+    <Content Include="Views\customerContact\Details.cshtml" />
+    <Content Include="Views\customerContact\Edit.cshtml" />
+    <Content Include="Views\customerContact\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

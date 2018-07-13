@@ -15,10 +15,30 @@ namespace weekone_cst.Controllers
         private 客戶資料Entities db = new 客戶資料Entities();
 
         // GET: customer
-        public ActionResult Index()
+        public ActionResult Index(string qname)
         {
-            return View(db.客戶資料.ToList());
+            if (string.IsNullOrWhiteSpace(qname))
+            {
+                return View("Index", db.客戶資料.ToList());
+            }
+            else
+            {
+                return View("Index", db.客戶資料.Where(p => p.客戶名稱.Contains(qname)).ToList());
+            }
         }
+
+        //[HttpPost]
+        //public ActionResult search(string qname)
+        //{
+        //    if (string.IsNullOrWhiteSpace(qname))
+        //    {
+        //        return View("Index", db.客戶資料.ToList());
+        //    }
+        //    else
+        //    {
+        //        return View("Index", db.客戶資料.Where(p => p.客戶名稱.Contains(qname)).ToList());
+        //    }
+        //}
 
         // GET: customer/Details/5
         public ActionResult Details(int? id)

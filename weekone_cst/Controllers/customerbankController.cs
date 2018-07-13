@@ -15,10 +15,16 @@ namespace weekone_cst.Controllers
         private 客戶資料Entities db = new 客戶資料Entities();
 
         // GET: customerbank
-        public ActionResult Index()
+        public ActionResult Index(string qname)
         {
-            var 客戶銀行資訊 = db.客戶銀行資訊.Include(客 => 客.客戶資料);
-            return View(客戶銀行資訊.ToList());
+            if (string.IsNullOrWhiteSpace(qname))
+            {
+                return View("Index", db.客戶銀行資訊.Include(客 => 客.客戶資料).ToList());
+            }
+            else
+            {
+                return View("Index", db.客戶銀行資訊.Include(客 => 客.客戶資料).Where(p => p.銀行名稱.Contains(qname)).ToList());
+            }
         }
 
         // GET: customerbank/Details/5

@@ -14,11 +14,14 @@ namespace weekone_cst.Models
     {
         [Required]
         public int Id { get; set; }
-        
-        [StringLength(50, ErrorMessage="欄位長度不得大於 50 個字元")]
+
+        [StringLength(10, ErrorMessage = "欄位長度不得大於 10 個字元")]
+        public string 客戶分類 { get; set; }
+
+        [StringLength(50, ErrorMessage = "欄位長度不得大於 50 個字元")]
         [Required]
         public string 客戶名稱 { get; set; }
-        
+
         [StringLength(8, ErrorMessage="欄位長度不得大於 8 個字元")]
         [Required]
         public string 統一編號 { get; set; }

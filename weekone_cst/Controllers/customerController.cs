@@ -24,15 +24,17 @@ namespace weekone_cst.Controllers
         //private 客戶資料Entities db = new 客戶資料Entities();
 
         // GET: customer
-        public ActionResult Index(string qname)
+        public ActionResult Index(string qtype, string qname)
         {
-            if (string.IsNullOrWhiteSpace(qname))
+            ViewBag.qtype = new SelectList(repo.All(), "客戶分類", "客戶分類", qtype);
+
+            if (string.IsNullOrWhiteSpace(qtype) && string.IsNullOrWhiteSpace(qname))
             {
                 return View("Index", repo.All().ToList());
             }
             else
             {
-                return View("Index", repo.搜尋名稱(qname));
+                return View("Index", repo.搜尋名稱(qtype, qname));
             }
         }
 
@@ -62,7 +64,7 @@ namespace weekone_cst.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,客戶名稱,統一編號,電話,傳真,地址,Email")] 客戶資料 客戶資料)
+        public ActionResult Create([Bind(Include = "Id,客戶分類,客戶名稱,統一編號,電話,傳真,地址,Email")] 客戶資料 客戶資料)
         {
             if (ModelState.IsValid)
             {
@@ -94,7 +96,7 @@ namespace weekone_cst.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,客戶名稱,統一編號,電話,傳真,地址,Email")] 客戶資料 客戶資料)
+        public ActionResult Edit([Bind(Include = "Id,客戶分類,客戶名稱,統一編號,電話,傳真,地址,Email")] 客戶資料 客戶資料)
         {
             if (ModelState.IsValid)
             {

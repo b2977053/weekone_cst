@@ -12,33 +12,29 @@ namespace weekone_cst.Controllers
 {
     public class customerController : Controller
     {
-        private 客戶資料Entities db = new 客戶資料Entities();
+        客戶資料Repository repo;
+        客戶資料Repository occuRepo;
+
+        public customerController()
+        {
+            repo = RepositoryHelper.Get客戶資料Repository();
+            occuRepo = RepositoryHelper.Get客戶資料Repository(repo.UnitOfWork);
+        }
+
+        //private 客戶資料Entities db = new 客戶資料Entities();
 
         // GET: customer
         public ActionResult Index(string qname)
         {
             if (string.IsNullOrWhiteSpace(qname))
             {
-                return View("Index", db.客戶資料.ToList());
+                return View("Index", repo.All().ToList());
             }
             else
             {
-                return View("Index", db.客戶資料.Where(p => p.客戶名稱.Contains(qname)).ToList());
+                return View("Index", repo.搜尋名稱(qname));
             }
         }
-
-        //[HttpPost]
-        //public ActionResult search(string qname)
-        //{
-        //    if (string.IsNullOrWhiteSpace(qname))
-        //    {
-        //        return View("Index", db.客戶資料.ToList());
-        //    }
-        //    else
-        //    {
-        //        return View("Index", db.客戶資料.Where(p => p.客戶名稱.Contains(qname)).ToList());
-        //    }
-        //}
 
         // GET: customer/Details/5
         public ActionResult Details(int? id)
@@ -47,7 +43,7 @@ namespace weekone_cst.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            客戶資料 客戶資料 = db.客戶資料.Find(id);
+            客戶資料 客戶資料 = repo.Find(id);
             if (客戶資料 == null)
             {
                 return HttpNotFound();
@@ -70,8 +66,8 @@ namespace weekone_cst.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.客戶資料.Add(客戶資料);
-                db.SaveChanges();
+                repo.Add(客戶資料);
+                repo.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
 
@@ -85,7 +81,7 @@ namespace weekone_cst.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            客戶資料 客戶資料 = db.客戶資料.Find(id);
+            客戶資料 客戶資料 = repo.Find(id);
             if (客戶資料 == null)
             {
                 return HttpNotFound();
@@ -102,6 +98,7 @@ namespace weekone_cst.Controllers
         {
             if (ModelState.IsValid)
             {
+                var db = repo.UnitOfWork.Context;
                 db.Entry(客戶資料).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -116,7 +113,7 @@ namespace weekone_cst.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            客戶資料 客戶資料 = db.客戶資料.Find(id);
+            客戶資料 客戶資料 = repo.Find(id);
             if (客戶資料 == null)
             {
                 return HttpNotFound();
@@ -129,9 +126,9 @@ namespace weekone_cst.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            客戶資料 客戶資料 = db.客戶資料.Find(id);
-            db.客戶資料.Remove(客戶資料);
-            db.SaveChanges();
+            客戶資料 客戶資料 = repo.Find(id);
+            repo.Delete(客戶資料);
+            repo.UnitOfWork.Commit();
             return RedirectToAction("Index");
         }
 
@@ -139,7 +136,7 @@ namespace weekone_cst.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                repo.UnitOfWork.Context.Dispose();
             }
             base.Dispose(disposing);
         }

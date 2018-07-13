@@ -12,18 +12,30 @@ namespace weekone_cst.Controllers
 {
     public class customerbankController : Controller
     {
-        private 客戶資料Entities db = new 客戶資料Entities();
+        客戶銀行資訊Repository repo;
+        客戶銀行資訊Repository occuRepo;
+        客戶資料Repository repo客戶資料;
+
+        public customerbankController()
+        {
+            repo = RepositoryHelper.Get客戶銀行資訊Repository();
+            occuRepo = RepositoryHelper.Get客戶銀行資訊Repository(repo.UnitOfWork);
+
+            repo客戶資料 = RepositoryHelper.Get客戶資料Repository();
+        }
+
+        //private 客戶資料Entities db = new 客戶資料Entities();
 
         // GET: customerbank
         public ActionResult Index(string qname)
         {
             if (string.IsNullOrWhiteSpace(qname))
             {
-                return View("Index", db.客戶銀行資訊.Include(客 => 客.客戶資料).ToList());
+                return View("Index", repo.All().ToList());
             }
             else
             {
-                return View("Index", db.客戶銀行資訊.Include(客 => 客.客戶資料).Where(p => p.銀行名稱.Contains(qname)).ToList());
+                return View("Index", repo.搜尋名稱(qname));
             }
         }
 
@@ -34,7 +46,7 @@ namespace weekone_cst.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            客戶銀行資訊 客戶銀行資訊 = db.客戶銀行資訊.Find(id);
+            客戶銀行資訊 客戶銀行資訊 = repo.Find(id);
             if (客戶銀行資訊 == null)
             {
                 return HttpNotFound();
@@ -45,7 +57,7 @@ namespace weekone_cst.Controllers
         // GET: customerbank/Create
         public ActionResult Create()
         {
-            ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱");
+            ViewBag.客戶Id = new SelectList(repo客戶資料.All(), "Id", "客戶名稱");
             return View();
         }
 
@@ -58,12 +70,12 @@ namespace weekone_cst.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.客戶銀行資訊.Add(客戶銀行資訊);
-                db.SaveChanges();
+                repo.Add(客戶銀行資訊);
+                repo.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱", 客戶銀行資訊.客戶Id);
+            ViewBag.客戶Id = new SelectList(repo客戶資料.All(), "Id", "客戶名稱", 客戶銀行資訊.客戶Id);
             return View(客戶銀行資訊);
         }
 
@@ -74,12 +86,12 @@ namespace weekone_cst.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            客戶銀行資訊 客戶銀行資訊 = db.客戶銀行資訊.Find(id);
+            客戶銀行資訊 客戶銀行資訊 = repo.Find(id);
             if (客戶銀行資訊 == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱", 客戶銀行資訊.客戶Id);
+            ViewBag.客戶Id = new SelectList(repo客戶資料.All(), "Id", "客戶名稱", 客戶銀行資訊.客戶Id);
             return View(客戶銀行資訊);
         }
 
@@ -92,11 +104,12 @@ namespace weekone_cst.Controllers
         {
             if (ModelState.IsValid)
             {
+                var db = repo.UnitOfWork.Context;
                 db.Entry(客戶銀行資訊).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱", 客戶銀行資訊.客戶Id);
+            ViewBag.客戶Id = new SelectList(repo客戶資料.All(), "Id", "客戶名稱", 客戶銀行資訊.客戶Id);
             return View(客戶銀行資訊);
         }
 
@@ -107,7 +120,7 @@ namespace weekone_cst.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            客戶銀行資訊 客戶銀行資訊 = db.客戶銀行資訊.Find(id);
+            客戶銀行資訊 客戶銀行資訊 = repo.Find(id);
             if (客戶銀行資訊 == null)
             {
                 return HttpNotFound();
@@ -120,9 +133,9 @@ namespace weekone_cst.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            客戶銀行資訊 客戶銀行資訊 = db.客戶銀行資訊.Find(id);
-            db.客戶銀行資訊.Remove(客戶銀行資訊);
-            db.SaveChanges();
+            客戶銀行資訊 客戶銀行資訊 = repo.Find(id);
+            repo.Delete(客戶銀行資訊);
+            repo.UnitOfWork.Commit();
             return RedirectToAction("Index");
         }
 
@@ -130,7 +143,7 @@ namespace weekone_cst.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                repo.UnitOfWork.Context.Dispose();
             }
             base.Dispose(disposing);
         }

@@ -3,11 +3,34 @@ namespace weekone_cst.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    
+    using System.Linq;
+
     [MetadataType(typeof(客戶聯絡人MetaData))]
-    public partial class 客戶聯絡人
+    public partial class 客戶聯絡人 : IValidatableObject
     {
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            客戶聯絡人Repository repo = RepositoryHelper.Get客戶聯絡人Repository();
+            var 聯絡人 = repo.Find(this.Id);
+            if (聯絡人 == null)
+            {
+                if (repo.checkMail(this.客戶Id, this.Email))
+                {
+                    yield return new ValidationResult("同一個客戶下的聯絡人，其 Email 不能重複。", new string[] { "Email" });
+                }
+            }
+            else if (this.Email != 聯絡人.Email)
+            {
+                if (repo.checkMail(聯絡人.客戶Id, this.Email))
+                {
+                    yield return new ValidationResult("同一個客戶下的聯絡人，其 Email 不能重複。", new string[] { "Email" });
+                }
+            }
+
+            
+        }
     }
+    
     
     public partial class 客戶聯絡人MetaData
     {

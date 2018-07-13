@@ -44,6 +44,13 @@ namespace weekone_cst.Models
             }
         }
 
+        public bool checkMail(int 客戶Id, string email)
+        {
+            var 客戶聯絡人 = this.All();
+            客戶聯絡人 = 客戶聯絡人.Where(r => r.客戶Id == 客戶Id && r.Email == email);
+            return 客戶聯絡人.Count() > 0;
+        }
+
         public List<客戶聯絡人> SelectList(string orderby)
         {
             var 客戶聯絡人 = this.All(orderby);
